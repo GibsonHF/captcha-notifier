@@ -11,6 +11,7 @@ import javax.script.ScriptEngineManager;
 
 public class ChatListener {
     private static boolean hasReactionTyped = false;
+    private static String lastReactionMessage = "";
 
     public static void register() {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> onChatMessage(message));
@@ -26,6 +27,11 @@ public class ChatListener {
         String messageText = message.getString();
 
         if (isReactionGame(messageText)) {
+            if (!messageText.equals(lastReactionMessage)) {
+                hasReactionTyped = false;
+                lastReactionMessage = messageText;
+            }
+            
             if (hasReactionTyped) {
                 return;
             }
