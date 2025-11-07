@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "captchanotifier",
+  "version": "${version}",
+  "name": "Captcha Notifier",
+  "description": "Detects captcha screens and sends Discord webhook notifications",
+  "authors": ["gibson"],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/captchanotifier/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "me.gibson.captchanotifier.client.CaptchaNotifierDataGenerator"
+    ],
+    "client": [
+      "me.gibson.captchanotifier.client.CaptchaNotifierClient"
+    ],
+    "main": [
+      "me.gibson.captchanotifier.CaptchaNotifier"
+    ]
+  },
+  "mixins": [
+    "captchanotifier.mixins.json",
+    {
+      "config": "captchanotifier.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

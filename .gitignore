@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDE
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Minecraft/Fabric
+run/
+
+# OS
+.DS_Store
+*.log
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Build scripts (not needed for users)
+build.sh
+build_and_run.sh
+cleanup.sh
+
+# Local config
+*.json
+!src/**/fabric.mod.json
