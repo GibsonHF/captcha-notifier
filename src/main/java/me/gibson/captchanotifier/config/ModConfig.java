@@ -26,6 +26,10 @@ public class ModConfig {
     private int reactionMaxDelay = 1800;
     private int mathMinDelay = 1500;
     private int mathMaxDelay = 2700;
+    private int scrambleMinDelay = 1200;
+    private int scrambleMaxDelay = 2500;
+    private int triviaMinDelay = 1300;
+    private int triviaMaxDelay = 2600;
 
     public String getWebhookUrl() {
         return webhookUrl;
@@ -88,7 +92,7 @@ public class ModConfig {
     }
 
     public void setReactionMaxDelay(int delay) {
-        this.reactionMaxDelay = Math.max(reactionMinDelay, Math.min(delay, 5000));
+        this.reactionMaxDelay = Math.max(reactionMinDelay, Math.min(delay, 20000));
     }
 
     public int getMathMinDelay() {
@@ -104,7 +108,39 @@ public class ModConfig {
     }
 
     public void setMathMaxDelay(int delay) {
-        this.mathMaxDelay = Math.max(mathMinDelay, Math.min(delay, 5000));
+        this.mathMaxDelay = Math.max(mathMinDelay, Math.min(delay, 20000));
+    }
+
+    public int getScrambleMinDelay() {
+        return scrambleMinDelay;
+    }
+
+    public void setScrambleMinDelay(int delay) {
+        this.scrambleMinDelay = Math.max(100, Math.min(delay, scrambleMaxDelay));
+    }
+
+    public int getScrambleMaxDelay() {
+        return scrambleMaxDelay;
+    }
+
+    public void setScrambleMaxDelay(int delay) {
+        this.scrambleMaxDelay = Math.max(scrambleMinDelay, Math.min(delay, 20000));
+    }
+
+    public int getTriviaMinDelay() {
+        return triviaMinDelay;
+    }
+
+    public void setTriviaMinDelay(int delay) {
+        this.triviaMinDelay = Math.max(100, Math.min(delay, triviaMaxDelay));
+    }
+
+    public int getTriviaMaxDelay() {
+        return triviaMaxDelay;
+    }
+
+    public void setTriviaMaxDelay(int delay) {
+        this.triviaMaxDelay = Math.max(triviaMinDelay, Math.min(delay, 20000));
     }
 
     public static ModConfig load() {

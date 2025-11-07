@@ -7,14 +7,26 @@ import net.minecraft.client.MinecraftClient;
 import java.util.concurrent.CompletableFuture;
 
 public class AutoTyper {
+    
+    public enum GameType {
+        REACTION,
+        MATH,
+        SCRAMBLE,
+        TRIVIA
+    }
+
     public static CompletableFuture<Void> typeWord(String word) {
-        return typeWord(word, false);
+        return typeWord(word, GameType.MATH);
     }
 
     public static CompletableFuture<Void> typeWord(String word, boolean isReactionGame) {
+        return typeWord(word, isReactionGame ? GameType.REACTION : GameType.MATH);
+    }
+
+    public static CompletableFuture<Void> typeWord(String word, GameType gameType) {
         return CompletableFuture.runAsync(() -> {
             try {
-                long delayMs = calculateDelay(isReactionGame);
+                long delayMs = calculateDelay(gameType);
                 Thread.sleep(delayMs);
 
                 MinecraftClient client = MinecraftClient.getInstance();
@@ -27,18 +39,34 @@ public class AutoTyper {
         });
     }
 
-    private static long calculateDelay(boolean isReactionGame) {
+    private static long calculateDelay(GameType gameType) {
         ModConfig config = CaptchaNotifierClient.getConfig();
+        int min, max;
 
-        if (isReactionGame) {
-            int min = config.getReactionMinDelay();
-            int max = config.getReactionMaxDelay();
-            return min + (long) (Math.random() * (max - min));
-        } else {
-            int min = config.getMathMinDelay();
-            int max = config.getMathMaxDelay();
-            return min + (long) (Math.random() * (max - min));
+        switch (gameType) {
+            case REACTION:
+                min = config.getReactionMinDelay();
+                max = config.getReactionMaxDelay();
+                break;
+            case MATH:
+                min = config.getMathMinDelay();
+                max = config.getMathMaxDelay();
+                break;
+            case SCRAMBLE:
+                min = config.getScrambleMinDelay();
+                max = config.getScrambleMaxDelay();
+                break;
+            case TRIVIA:
+                min = config.getTriviaMinDelay();
+                max = config.getTriviaMaxDelay();
+                break;
+            default:
+                min = config.getMathMinDelay();
+                max = config.getMathMaxDelay();
+                break;
         }
+
+        return min + (long) (Math.random() * (max - min));
     }
 }
 

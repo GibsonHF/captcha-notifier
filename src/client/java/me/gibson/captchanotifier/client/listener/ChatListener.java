@@ -1,6 +1,8 @@
 package me.gibson.captchanotifier.client.listener;
 
 import me.gibson.captchanotifier.client.CaptchaNotifierClient;
+import me.gibson.captchanotifier.client.ScrambleAnswers;
+import me.gibson.captchanotifier.client.TriviaAnswers;
 import me.gibson.captchanotifier.client.autotype.AutoTyper;
 import me.gibson.captchanotifier.config.ModConfig;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -12,6 +14,8 @@ import javax.script.ScriptEngineManager;
 public class ChatListener {
     private static boolean hasReactionTyped = false;
     private static String lastReactionMessage = "";
+    private static String lastScrambleWord = "";
+    private static String lastTriviaQuestion = "";
 
     public static void register() {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> onChatMessage(message));
@@ -39,7 +43,7 @@ public class ChatListener {
             String word = extractWordFromMessage(messageText);
             if (word != null && !word.isEmpty()) {
                 hasReactionTyped = true;
-                AutoTyper.typeWord(word, true);
+                AutoTyper.typeWord(word, AutoTyper.GameType.REACTION);
             }
         } else if (isMathGame(messageText)) {
             String expression = extractMathExpression(messageText);
@@ -47,9 +51,27 @@ public class ChatListener {
                 try {
                     double result = evaluateMathExpression(expression);
                     String answer = String.valueOf((int) Math.round(result));
-                    AutoTyper.typeWord(answer, false);
+                    AutoTyper.typeWord(answer, AutoTyper.GameType.MATH);
                 } catch (Exception e) {
                     // Math evaluation failed, skip this round
+                }
+            }
+        } else if (isScrambleGame(messageText)) {
+            String scrambledWord = extractScrambleWord(messageText);
+            if (scrambledWord != null && !scrambledWord.equals(lastScrambleWord)) {
+                lastScrambleWord = scrambledWord;
+                String answer = ScrambleAnswers.solve(scrambledWord);
+                if (answer != null) {
+                    AutoTyper.typeWord(answer, AutoTyper.GameType.SCRAMBLE);
+                }
+            }
+        } else if (isTriviaGame(messageText)) {
+            String question = extractTriviaQuestion(messageText);
+            if (question != null && !question.equals(lastTriviaQuestion)) {
+                lastTriviaQuestion = question;
+                String answer = TriviaAnswers.getAnswer(question);
+                if (answer != null) {
+                    AutoTyper.typeWord(answer, AutoTyper.GameType.TRIVIA);
                 }
             }
         }
@@ -156,5 +178,45 @@ public class ChatListener {
     public static void reset() {
         hasReactionTyped = false;
     }
-}
 
+    private static boolean isScrambleGame(String message) {
+        return message.contains("SCRAMBLE") && message.contains("Unscramble the word");
+    }
+
+    private static boolean isTriviaGame(String message) {
+        return message.contains("TRIVIA »") && !message.contains("The answer was") && !message.contains("won the game");
+    }
+
+    private static String extractScrambleWord(String message) {
+        int startIndex = message.indexOf("Unscramble the word");
+        if (startIndex == -1) {
+            return null;
+        }
+
+        startIndex += "Unscramble the word ".length();
+        int endIndex = message.indexOf(" to win", startIndex);
+
+        if (endIndex == -1) {
+            endIndex = message.length();
+        }
+
+        String word = message.substring(startIndex, endIndex).trim();
+        return word.replaceAll("[^a-zA-Z0-9]", "").trim();
+    }
+
+    private static String extractTriviaQuestion(String message) {
+        int startIndex = message.indexOf("TRIVIA »");
+        if (startIndex == -1) {
+            return null;
+        }
+
+        startIndex += "TRIVIA »".length();
+        String question = message.substring(startIndex).trim();
+
+        if (question.endsWith("?")) {
+            return question;
+        } else {
+            return question + "?";
+        }
+    }
+}

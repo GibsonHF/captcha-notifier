@@ -96,44 +96,72 @@ public class ConfigScreen extends Screen {
             value -> config.setMathMaxDelay(value),
             () -> config.getMathMaxDelay()
         ));
+
+        this.addDrawableChild(createDelaySlider(
+            this.width / 2 - 150, this.height / 2 + 60,
+            "Scramble Min: ", config.getScrambleMinDelay(),
+            value -> config.setScrambleMinDelay(value),
+            () -> config.getScrambleMinDelay()
+        ));
+
+        this.addDrawableChild(createDelaySlider(
+            this.width / 2 + 5, this.height / 2 + 60,
+            "Scramble Max: ", config.getScrambleMaxDelay(),
+            value -> config.setScrambleMaxDelay(value),
+            () -> config.getScrambleMaxDelay()
+        ));
+
+        this.addDrawableChild(createDelaySlider(
+            this.width / 2 - 150, this.height / 2 + 85,
+            "Trivia Min: ", config.getTriviaMinDelay(),
+            value -> config.setTriviaMinDelay(value),
+            () -> config.getTriviaMinDelay()
+        ));
+
+        this.addDrawableChild(createDelaySlider(
+            this.width / 2 + 5, this.height / 2 + 85,
+            "Trivia Max: ", config.getTriviaMaxDelay(),
+            value -> config.setTriviaMaxDelay(value),
+            () -> config.getTriviaMaxDelay()
+        ));
     }
 
     private SliderWidget createDelaySlider(int x, int y, String label, int initialValue,
                                            java.util.function.Consumer<Integer> setter,
                                            java.util.function.IntSupplier getter) {
         return new SliderWidget(x, y, SLIDER_WIDTH, SLIDER_HEIGHT,
-            Text.literal(label + initialValue + "ms"), (initialValue - 100.0) / 4900.0) {
+            Text.literal(label + initialValue + "ms"), (initialValue - 100.0) / 19900.0) {
             @Override
             protected void updateMessage() {
-                int value = 100 + (int) (this.value * 4900);
+                int value = 100 + (int) (this.value * 19900);
                 this.setMessage(Text.literal(label + value + "ms"));
             }
 
             @Override
             protected void applyValue() {
-                int value = 100 + (int) (this.value * 4900);
+                int value = 100 + (int) (this.value * 19900);
                 setter.accept(value);
             }
         };
     }
 
     private void initToggleButtons() {
-        addToggleButton(this.width / 2 - 155, this.height / 2 + 65, "Webhook",
+        addToggleButton(this.width / 2 - 155, this.height / 2 + 115, "Webhook",
             () -> webhookEnabled, value -> {
                 webhookEnabled = value;
                 webhookUrlField.setEditable(value);
             });
 
-        addToggleButton(this.width / 2 - 75, this.height / 2 + 65, "Ping",
+        addToggleButton(this.width / 2 - 75, this.height / 2 + 115, "Ping",
             () -> pingEnabled, value -> {
                 pingEnabled = value;
                 discordUserIdField.setEditable(value);
             });
 
-        addToggleButton(this.width / 2 + 5, this.height / 2 + 65, "AutoType",
+        addToggleButton(this.width / 2 + 5, this.height / 2 + 115, "AutoType",
             () -> autoTypeEnabled, value -> autoTypeEnabled = value);
 
-        addToggleButton(this.width / 2 - 155, this.height / 2 + 90, "VoteParty",
+        addToggleButton(this.width / 2 - 155, this.height / 2 + 140, "VoteParty",
             () -> votePartyEnabled, value -> votePartyEnabled = value);
     }
 
@@ -157,15 +185,15 @@ public class ConfigScreen extends Screen {
     private void initActionButtons() {
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Save"),
             button -> saveConfig())
-            .dimensions(this.width / 2 - 65, this.height / 2 + 90, 70, 20).build());
+            .dimensions(this.width / 2 - 65, this.height / 2 + 140, 70, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Test"),
             button -> testWebhook())
-            .dimensions(this.width / 2 + 15, this.height / 2 + 90, 70, 20).build());
+            .dimensions(this.width / 2 + 15, this.height / 2 + 140, 70, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Close"),
             button -> this.client.setScreen(parent))
-            .dimensions(this.width / 2 + 95, this.height / 2 + 90, 70, 20).build());
+            .dimensions(this.width / 2 + 95, this.height / 2 + 140, 70, 20).build());
     }
 
     private void saveConfig() {

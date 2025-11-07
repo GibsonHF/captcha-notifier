@@ -1,0 +1,216 @@
+package me.gibson.captchanotifier.client;
+
+import java.util.Arrays;
+
+public enum ScrambleAnswers {
+    ADMIN("admin"),
+    AFTERNOON("afternoon"),
+    ALLAY("allay"),
+    AMETHYST("amethyst"),
+    ANIMATIONS("animations"),
+    ANVIL("anvil"),
+    APPLE("apple"),
+    AQUA("aqua"),
+    ARMOR("armor"),
+    ARROW("arrow"),
+    BACKPACK("backpack"),
+    BANEOFARTHROPODS("baneofarthropods"),
+    BARREL("barrel"),
+    BEDROCK("bedrock"),
+    BLACKDYE("blackdye"),
+    BLACKSTONE("blackstone"),
+    BLASTPROTECTION("blastprotection"),
+    BLAZEROD("blazerod"),
+    BLUEDYE("bluedye"),
+    BONE("bone"),
+    BOOKSHELF("bookshelf"),
+    BOTTLE("bottle"),
+    BRICK("brick"),
+    BROWN("brown"),
+    BUCKET("bucket"),
+    BUILDER("builder"),
+    CACTUS("cactus"),
+    CAKE("cake"),
+    CARPET("carpet"),
+    CHARCOAL("charcoal"),
+    CHICKEN("chicken"),
+    CHORUS("chorus"),
+    CORAL("coral"),
+    COW("cow"),
+    CRAFTING("crafting"),
+    DARKBLUE("darkblue"),
+    DARKRED("darkred"),
+    DECORATION("decoration"),
+    DIAMOND("diamond"),
+    DOOR("door"),
+    DRAGONHEAD("dragonhead"),
+    DRIPSTONE("dripstone"),
+    DROPPER("dropper"),
+    DUST("dust"),
+    ELF("elf"),
+    ELYTRA("elytra"),
+    EMERALD("emerald"),
+    END("end"),
+    ENDERDRAGON("enderdragon"),
+    ENDSTONE("endstone"),
+    ENVOY("envoy"),
+    FACTORY("factory"),
+    FENCE("fence"),
+    FIREWORK("firework"),
+    FISHING("fishing"),
+    FISHINGROD("fishingrod"),
+    FORTUNE("fortune"),
+    FOX("fox"),
+    GATE("gate"),
+    GLOWLICHEN("glowlichen"),
+    GOLDENCARROT("goldencarrot"),
+    GRAY("gray"),
+    GRINDER("grinder"),
+    HAYBALE("haybale"),
+    HEALING("healing"),
+    HELMET("helmet"),
+    HELPER("helper"),
+    HERO("hero"),
+    HILLS("hills"),
+    HOE("hoe"),
+    HONEY("honey"),
+    HUSK("husk"),
+    ICE("ice"),
+    IRONDOOR("irondoor"),
+    IRONGOLEM("irongolem"),
+    JOCKEY("jockey"),
+    KOTH("koth"),
+    LAMP("lamp"),
+    LEAPING("leaping"),
+    LEVER("lever"),
+    LIGHT("light"),
+    LIGHTNINGROD("lightningrod"),
+    LIMEDYE("limedye"),
+    LOYALTY("loyalty"),
+    LYANNE("lyanne"),
+    MAGMACUBE("magmacube"),
+    MASTERY("mastery"),
+    MATERIALS("materials"),
+    MENORAH("menorah"),
+    MESA("mesa"),
+    METEOR("meteor"),
+    MILK("milk"),
+    MILKYWAY("milkyway"),
+    MODERATOR("moderator"),
+    MONSTER("monster"),
+    MORNING("morning"),
+    MULTIPLIER("multiplier"),
+    MULTISHOT("multishot"),
+    NETHER("nether"),
+    NETHERBRICK("netherbrick"),
+    OBSERVER("observer"),
+    OGPLAYER("ogplayer"),
+    ORANGEDYE("orangedye"),
+    ORNAMENT("ornament"),
+    OXEYE("oxeye"),
+    PANTS("pants"),
+    PARTNER("partner"),
+    PENGUIN("penguin"),
+    PEONY("peony"),
+    PHANTOM("phantom"),
+    PICKAXE("pickaxe"),
+    PIERCING("piercing"),
+    PLAIN("plain"),
+    PLOTS("plots"),
+    POISON("poison"),
+    POT("pot"),
+    POTATO("potato"),
+    PRESSURE("pressure"),
+    PROJECTILEPROTECTION("projectileprotection"),
+    PROTECTION("protection"),
+    PUNCH("punch"),
+    RABBIT("rabbit"),
+    RAIL("rail"),
+    RAVAGER("ravager"),
+    REDDYE("reddye"),
+    REDSAND("redsand"),
+    REPEATER("repeater"),
+    RESPIRATION("respiration"),
+    RIPTIDE("riptide"),
+    ROTTENFLESH("rottenflesh"),
+    RUBY("ruby"),
+    SAITO("saito"),
+    SAND("sand"),
+    SAPLING("sapling"),
+    SAVANNA("savanna"),
+    SCUTE("scute"),
+    SHARD("shard"),
+    SHARPNESS("sharpness"),
+    SHIELD("shield"),
+    SILVERFISH("silverfish"),
+    SLAB("slab"),
+    SLEEP("sleep"),
+    SLIME("slime"),
+    SMITE("smite"),
+    SNOW("snow"),
+    SNOWBALL("snowball"),
+    SOULSPEED("soulspeed"),
+    SPAWN("spawn"),
+    SPECTRAL("spectral"),
+    SPIKE("spike"),
+    STAINED("stained"),
+    STARBURST("starburst"),
+    STICKYPISTON("stickypiston"),
+    STRAY("stray"),
+    STRENGTH("strength"),
+    STRING("string"),
+    SUGAR("sugar"),
+    SUMMONER("summoner"),
+    SUNFLOWER("sunflower"),
+    SWEEPINGEDGE("sweepingedge"),
+    THORNS("thorns"),
+    TOTEMOFUNDYING("totemofundying"),
+    TREE("tree"),
+    TULIP("tulip"),
+    TWIZZLER("twizzler"),
+    UNBREAKING("unbreaking"),
+    VISION("vision"),
+    WARZONE("warzone"),
+    WATCH("watch"),
+    WORKBENCH("workbench"),
+    YOUTUBE("youtube"),
+    ZOGLIN("zoglin");
+
+    private final String answer;
+    private final String sortedChars;
+
+    ScrambleAnswers(String answer) {
+        this.answer = answer;
+        this.sortedChars = sortString(answer);
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    private static String sortString(String input) {
+        char[] chars = input.toLowerCase().toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+
+    public static String solve(String scrambled) {
+        if (scrambled == null || scrambled.isEmpty()) {
+            return null;
+        }
+
+        String scrambledSorted = sortString(scrambled);
+
+        for (ScrambleAnswers answer : values()) {
+            if (answer.sortedChars.equals(scrambledSorted)) {
+                return answer.answer;
+            }
+        }
+
+        return null;
+    }
+
+    public static boolean hasAnswer(String scrambled) {
+        return solve(scrambled) != null;
+    }
+}
