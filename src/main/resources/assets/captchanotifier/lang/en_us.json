@@ -1,6 +1,7 @@
 {
   "key.captchanotifier.openconfig": "Open Captcha Notifier Config",
   "key.captchanotifier.attack": "Toggle Attack",
+  "key.captchanotifier.copytexture": "Copy Head Texture to Clipboard",
   "category.captchanotifier": "Captcha Notifier"
 }
 

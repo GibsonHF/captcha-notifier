@@ -2,6 +2,8 @@
 .gradle/
 build/
 out/
+bin/
+*.class
 
 # IDE
 *.iml

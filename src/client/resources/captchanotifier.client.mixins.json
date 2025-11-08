@@ -4,6 +4,7 @@
   "package": "me.gibson.captchanotifier.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ItemStackTooltipMixin"
   ],
   "injectors": {
     "defaultRequire": 1
