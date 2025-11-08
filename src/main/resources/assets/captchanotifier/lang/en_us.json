@@ -1,5 +1,6 @@
 {
   "key.captchanotifier.openconfig": "Open Captcha Notifier Config",
+  "key.captchanotifier.attack": "Toggle Attack",
   "category.captchanotifier": "Captcha Notifier"
 }
 

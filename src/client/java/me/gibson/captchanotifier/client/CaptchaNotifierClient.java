@@ -18,6 +18,8 @@ public class CaptchaNotifierClient implements ClientModInitializer {
 
     private static ModConfig config;
     private static KeyBinding configKeyBinding;
+    private static KeyBinding attackKeyBinding;
+    private static boolean isAttackToggled = false;
 
     @Override
     public void onInitializeClient() {
@@ -30,6 +32,13 @@ public class CaptchaNotifierClient implements ClientModInitializer {
             "category.captchanotifier"
         ));
 
+        attackKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.captchanotifier.attack",
+            InputUtil.Type.KEYSYM,
+            GLFW.GLFW_KEY_L,
+            "category.captchanotifier"
+        ));
+
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen instanceof HandledScreen<?> handledScreen) {
                 CaptchaDetector.getInstance().onScreenOpen(handledScreen);
@@ -39,6 +48,12 @@ public class CaptchaNotifierClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (configKeyBinding.wasPressed()) {
                 MinecraftClient.getInstance().setScreen(new ConfigScreen(null));
+            }
+            if (attackKeyBinding.wasPressed()) {
+                isAttackToggled = !isAttackToggled;
+            }
+            if (isAttackToggled) {
+                client.options.attackKey.setPressed(true);
             }
         });
 
