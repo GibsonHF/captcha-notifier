@@ -92,7 +92,13 @@ public class CaptchaDetector {
     private void extractSignInfo(ItemStack stack, StringBuilder lore) {
         String displayName = stack.getName().getString();
         String cleanName = stripColorCodes(displayName);
-        lore.append("\n**Question:** ").append(cleanName).append("\n");
+        
+        // Try to extract the actual question from the sign's display name
+        String question = extractQuestionFromDisplayName(cleanName);
+        
+        if (!question.isEmpty()) {
+            lore.append("\n**Question:** ").append(question).append("\n");
+        }
 
         LoreComponent loreComponent = stack.get(DataComponentTypes.LORE);
         if (loreComponent != null && !loreComponent.lines().isEmpty()) {
@@ -103,6 +109,15 @@ public class CaptchaDetector {
                 }
             }
         }
+    }
+
+    private String extractQuestionFromDisplayName(String displayName) {
+        // The display name IS the question - just return it cleaned
+        if (displayName == null || displayName.isEmpty()) {
+            return "";
+        }
+        
+        return displayName.trim();
     }
 
     private String stripColorCodes(String text) {
