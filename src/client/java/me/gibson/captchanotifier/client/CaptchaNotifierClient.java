@@ -48,33 +48,39 @@ public class CaptchaNotifierClient implements ClientModInitializer {
         CaptchaNotifier.LOGGER.info("[Auto-Join] Mod initializing...");
         config = ModConfig.load();
 
-        configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.captchanotifier.openconfig",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
-                "category.captchanotifier"
-        ));
-
-        attackKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.captchanotifier.attack",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_L,
-                "category.captchanotifier"
-        ));
-
-        copyTextureKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.captchanotifier.copytexture",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_C,
-                "category.captchanotifier"
-        ));
-
+        registerKeyBindings();
         registerScreenEvents();
         registerConnectionEvents();
         registerClientTickEvents();
 
         ChatListener.register();
         VotePartyListener.register();
+    }
+
+    private static void registerKeyBindings() {
+        configKeyBinding = registerKeyBinding(
+                "key.captchanotifier.openconfig",
+                GLFW.GLFW_KEY_K
+        );
+
+        attackKeyBinding = registerKeyBinding(
+                "key.captchanotifier.attack",
+                GLFW.GLFW_KEY_L
+        );
+
+        copyTextureKeyBinding = registerKeyBinding(
+                "key.captchanotifier.copytexture",
+                GLFW.GLFW_KEY_C
+        );
+    }
+
+    private static KeyBinding registerKeyBinding(String name, int keyCode) {
+        return KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                name,
+                InputUtil.Type.KEYSYM,
+                keyCode,
+                "category.captchanotifier"
+        ));
     }
 
     private void registerScreenEvents() {
@@ -113,33 +119,43 @@ public class CaptchaNotifierClient implements ClientModInitializer {
 
     private void registerClientTickEvents() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (configKeyBinding.wasPressed()) {
-                MinecraftClient.getInstance().setScreen(new ConfigScreen(null));
-            }
-
-            if (attackKeyBinding.wasPressed()) {
-                isAttackToggled = !isAttackToggled;
-            }
-            if (isAttackToggled) {
-                client.options.attackKey.setPressed(true);
-            }
-
-            while (copyTextureKeyBinding.wasPressed()) {
-                HeadTextureClipboard.copyFocusedSlotTexture();
-            }
-
-            tickCounter++;
-            if (tickCounter >= TICK_CHECK_INTERVAL) {
-                tickCounter = 0;
-
-                if (client.player != null && client.getNetworkHandler() != null && isTargetServer(client)) {
-                    if (!isWorkerRunning() && hasCompassInInventory(client)) {
-                        CaptchaNotifier.LOGGER.info("[Auto-Join] Compass detected in tick, restarting worker!");
-                        startAutoJoinWorker(client);
-                    }
-                }
-            }
+            handleKeyBindings(client);
+            handlePeriodicAutoJoinCheck(client);
         });
+    }
+
+    private static void handleKeyBindings(MinecraftClient client) {
+        while (configKeyBinding.wasPressed()) {
+            MinecraftClient.getInstance().setScreen(new ConfigScreen(null));
+        }
+
+        if (attackKeyBinding.wasPressed()) {
+            isAttackToggled = !isAttackToggled;
+        }
+        if (isAttackToggled) {
+            client.options.attackKey.setPressed(true);
+        }
+
+        while (copyTextureKeyBinding.wasPressed()) {
+            HeadTextureClipboard.copyFocusedSlotTexture();
+        }
+    }
+
+    private static void handlePeriodicAutoJoinCheck(MinecraftClient client) {
+        tickCounter++;
+        if (tickCounter >= TICK_CHECK_INTERVAL) {
+            tickCounter = 0;
+            checkAndRestartAutoJoin(client);
+        }
+    }
+
+    private static void checkAndRestartAutoJoin(MinecraftClient client) {
+        if (client.player != null && client.getNetworkHandler() != null && isTargetServer(client)) {
+            if (!isWorkerRunning() && hasCompassInInventory(client)) {
+                CaptchaNotifier.LOGGER.info("[Auto-Join] Compass detected in tick, restarting worker!");
+                startAutoJoinWorker(client);
+            }
+        }
     }
 
     private static void startAutoJoinWorker(MinecraftClient client) {
