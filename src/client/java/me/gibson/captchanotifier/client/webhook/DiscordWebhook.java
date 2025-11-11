@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
@@ -40,9 +41,8 @@ public class DiscordWebhook {
         return webhookUrl.startsWith("https://discord.com/api/webhooks/") ||
                webhookUrl.startsWith("https://discordapp.com/api/webhooks/");
     }
-
     private static HttpURLConnection createConnection(String webhookUrl) throws Exception {
-        URL url = new URL(webhookUrl);
+        URL url = new URI(webhookUrl).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");

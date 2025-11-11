@@ -22,6 +22,8 @@ public class ModConfig {
     private boolean pingEnabled = false;
     private boolean autoTypeEnabled = false;
     private boolean votePartyEnabled = false;
+    private boolean captchaAutoSolveEnabled = false;
+    private boolean autoFisherEnabled = false;
     private int reactionMinDelay = 1000;
     private int reactionMaxDelay = 1800;
     private int mathMinDelay = 1500;
@@ -30,6 +32,11 @@ public class ModConfig {
     private int scrambleMaxDelay = 2500;
     private int triviaMinDelay = 1300;
     private int triviaMaxDelay = 2600;
+    private int captchaMinDelay = 2000;
+    private int captchaMaxDelay = 3500;
+    private int autoFisherMinDelay = 500;
+    private int autoFisherMaxDelay = 1500;
+    private int autoFisherReelDelay = 300;
 
     public String getWebhookUrl() {
         return webhookUrl;
@@ -77,6 +84,22 @@ public class ModConfig {
 
     public void setVotePartyEnabled(boolean enabled) {
         this.votePartyEnabled = enabled;
+    }
+
+    public boolean isCaptchaAutoSolveEnabled() {
+        return captchaAutoSolveEnabled;
+    }
+
+    public void setCaptchaAutoSolveEnabled(boolean enabled) {
+        this.captchaAutoSolveEnabled = enabled;
+    }
+
+    public boolean isAutoFisherEnabled() {
+        return autoFisherEnabled;
+    }
+
+    public void setAutoFisherEnabled(boolean enabled) {
+        this.autoFisherEnabled = enabled;
     }
 
     public int getReactionMinDelay() {
@@ -141,6 +164,46 @@ public class ModConfig {
 
     public void setTriviaMaxDelay(int delay) {
         this.triviaMaxDelay = Math.max(triviaMinDelay, Math.min(delay, 20000));
+    }
+
+    public int getCaptchaMinDelay() {
+        return captchaMinDelay;
+    }
+
+    public void setCaptchaMinDelay(int delay) {
+        this.captchaMinDelay = Math.max(100, Math.min(delay, captchaMaxDelay));
+    }
+
+    public int getCaptchaMaxDelay() {
+        return captchaMaxDelay;
+    }
+
+    public void setCaptchaMaxDelay(int delay) {
+        this.captchaMaxDelay = Math.max(captchaMinDelay, Math.min(delay, 20000));
+    }
+
+    public int getAutoFisherMinDelay() {
+        return autoFisherMinDelay;
+    }
+
+    public void setAutoFisherMinDelay(int delay) {
+        this.autoFisherMinDelay = Math.max(100, Math.min(delay, autoFisherMaxDelay));
+    }
+
+    public int getAutoFisherMaxDelay() {
+        return autoFisherMaxDelay;
+    }
+
+    public void setAutoFisherMaxDelay(int delay) {
+        this.autoFisherMaxDelay = Math.max(autoFisherMinDelay, Math.min(delay, 10000));
+    }
+
+    public int getAutoFisherReelDelay() {
+        return autoFisherReelDelay;
+    }
+
+    public void setAutoFisherReelDelay(int delay) {
+        this.autoFisherReelDelay = Math.max(0, Math.min(delay, 2000));
     }
 
     public static ModConfig load() {

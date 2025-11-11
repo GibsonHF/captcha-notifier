@@ -121,6 +121,7 @@ public class CaptchaNotifierClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             handleKeyBindings(client);
             handlePeriodicAutoJoinCheck(client);
+            AutoFisher.getInstance().onClientTick();
         });
     }
 
