@@ -68,8 +68,13 @@ public class CaptchaDetector {
         }
 
         message.append("🚨 **CAPTCHA DETECTED!** 🚨\n")
-               .append("You need to solve the captcha!\n")
-               .append(loreInfo);
+               .append("You need to solve the captcha!\n");
+
+        if (loreInfo != null && !loreInfo.trim().isEmpty()) {
+            message.append("\n").append(loreInfo.trim());
+        } else {
+            message.append("\n*(No question text could be read from the captcha sign.)*");
+        }
 
         return message.toString();
     }
@@ -145,10 +150,25 @@ public class CaptchaDetector {
             }
         }
 
-        if (question == null || !question.toLowerCase().startsWith("solve")) {
+        if (question == null || question.isEmpty()) {
             return;
         }
 
+        String lowerQuestion = question.toLowerCase();
+
+        // Math captcha: "Solve 1x4"
+        if (lowerQuestion.startsWith("solve")) {
+            tryAutoSolveMathCaptcha(handler, question, config);
+            return;
+        }
+
+        // Mob click captcha: "Click the Creeper"
+        if (lowerQuestion.startsWith("click")) {
+            tryAutoSolveClickCaptcha(handler, question, config);
+        }
+    }
+
+    private void tryAutoSolveMathCaptcha(ScreenHandler handler, String question, ModConfig config) {
         // Extract math expression from question like "Solve 1x4"
         String expression = extractMathExpressionFromQuestion(question);
         if (expression == null || expression.isEmpty()) {
@@ -171,6 +191,20 @@ public class CaptchaDetector {
         clickSlotWithDelay(targetSlot, config.getCaptchaMinDelay(), config.getCaptchaMaxDelay());
     }
 
+    private void tryAutoSolveClickCaptcha(ScreenHandler handler, String question, ModConfig config) {
+        String target = extractClickTargetFromQuestion(question);
+        if (target == null || target.isEmpty()) {
+            return;
+        }
+
+        int targetSlot = findHeadSlotForMob(handler, target);
+        if (targetSlot == -1) {
+            return;
+        }
+
+        clickSlotWithDelay(targetSlot, config.getCaptchaMinDelay(), config.getCaptchaMaxDelay());
+    }
+
     private String extractMathExpressionFromQuestion(String question) {
         // Remove "Solve " prefix and clean up
         if (!question.toLowerCase().startsWith("solve")) {
@@ -178,9 +212,33 @@ public class CaptchaDetector {
         }
 
         String expr = question.substring(5).trim(); // Remove "Solve"
+        if (expr.toLowerCase().startsWith("the")) {
+            expr = expr.substring(3).trim();
+        }
         // Clean up the expression - keep only numbers, operators, and letters
         expr = expr.replaceAll("[^0-9a-zA-Z+\\-*/]", "");
         return expr.isEmpty() ? null : expr;
+    }
+
+    private String extractClickTargetFromQuestion(String question) {
+        String withoutPrefix = question.substring(5).trim(); // Remove "Click"
+
+        String lower = withoutPrefix.toLowerCase();
+        if (lower.startsWith("the ")) {
+            withoutPrefix = withoutPrefix.substring(4).trim();
+        } else if (lower.startsWith("on ")) {
+            withoutPrefix = withoutPrefix.substring(3).trim();
+        }
+
+        // Strip trailing punctuation
+        withoutPrefix = withoutPrefix.replaceAll("[^A-Za-z0-9]+$", "");
+
+        String[] parts = withoutPrefix.split("\\s+");
+        if (parts.length == 0) {
+            return null;
+        }
+
+        return parts[0];
     }
 
     private String solveMathExpression(String expression) {
@@ -202,8 +260,9 @@ public class CaptchaDetector {
     }
 
     private String parseSimpleExpression(String expr) {
-        // Handle multiplication like "1x4" -> "1*4"
+        // Handle multiplication like "1x4" or "1 x 4" -> "1*4"
         expr = expr.replace('x', '*').replace('X', '*');
+        expr = expr.replace(" * ", "*").replace("   ", " ").trim();
 
         try {
             // Split by operators
@@ -227,6 +286,21 @@ public class CaptchaDetector {
             return null;
         }
         return null;
+    }
+
+    private int findHeadSlotForMob(ScreenHandler handler, String targetMob) {
+        String targetLower = targetMob.toLowerCase();
+
+        for (int i = 0; i < handler.slots.size(); i++) {
+            ItemStack stack = handler.getSlot(i).getStack();
+            if (!stack.isEmpty()) {
+                String character = CaptchaHeadDatabase.getCharacter(stack);
+                if (character != null && character.toLowerCase().equals(targetLower)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     private int findHeadSlotForAnswer(ScreenHandler handler, String answer) {
@@ -265,4 +339,3 @@ public class CaptchaDetector {
         lastCaptchaId = "";
     }
 }
-

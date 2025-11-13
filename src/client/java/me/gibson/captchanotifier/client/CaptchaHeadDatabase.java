@@ -239,6 +239,56 @@ public class CaptchaHeadDatabase {
                 TEXTURE_TO_CHAR.put(
                                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWY3YWEwZDk3OTgzY2Q2N2RmYjY3YjdkOWQ5YzY0MWJjOWFhMzRkOTY2MzJmMzcyZDI2ZmVlMTlmNzFmOGI3In19fQ==",
                                 "9");
+                // Mob captcha heads
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjIxMDI1NDM0MDQ1YmRhNzAyNWIzZTUxNGIzMTZhNGI3NzBjNmZhYTRiYTlhZGI0YmUzODA5NTI2ZGI3N2Y5ZCJ9fX0=",
+                                "Guardian3");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmVlODUxNDg5MmYzZDc4YTMyZTg0NTZmY2JiOGM2MDgxZTIxYjI0NmQ4MmYzOThiZDk2OWZlYzE5ZDNjMjdiMyJ9fX0=",
+                                "Pig");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAxMjY4ZTljNDkyZGExZjBkODgyNzFjYjQ5MmE0YjMwMjM5NWY1MTVhN2JiZjc3ZjRhMjBiOTVmYzAyZWIyIn19fQ==",
+                                "Skeleton");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWFmMzJmMTM0ZWYwYTY0YTkxNzQxM2Y4ZDQxYTdhYmFkNjQ1Yjg4N2NjYThmNzE2MjUwZDY0M2ZmZjM2ZGMxMCJ9fX0=",
+                                "Panda");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI4ZGI2YjA1NDIzNWU0NTFkNjY2ZmM2NDRhMDg2NjMyYzZhYjIyYzdjZDUzNTY1YWU4MjZlMWQ1Y2MwYjE3In19fQ==",
+                                "Guardian1");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWUwODBhZjg4MWRlMjYyMjg5MGI5ZmJiNzEzNGMxZWE0Yzc4ZjdlZmYzNjM2YjQxN2YwYzQ3NWIwOWI2ODRkYSJ9fX0=",
+                                "Duck");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE4NGU3ZjczMDAzMThiN2E2MmJiMWVlNmZjMmUyOTY0YjA1MTYzZTNlYjQxZjE1YjMzMWQwZDJlYzY1YjlmOCJ9fX0=",
+                                "Creeper");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmViNzIwZGJkY2VmMDdlYWNlOWEyMDNjN2RhYjllOTcyOTM2ZWY0NTBlOTdlYmEwMDY0ZTIzYWI4ZjJmODY0YSJ9fX0=",
+                                "Pig");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmNhNDQ1NzQ5MjUxYmRkODk4ZmI4M2Y2Njc4NDRlMzhhMWRmZjc5YTE1MjlmNzlhNDI0NDdhMDU5OTMxMGVhNCJ9fX0=",
+                                "Skeleton");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjIzYjIzN2EwZjI3ZDUwNWZjZDkzMWI2ZTljMjkzM2E3NDY3ODdjYzEwODQxNGY0ZjgyMzcwNzk1YmUwZmI5In19fQ==",
+                                "Panda");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY2N2MwZTEwN2JlNzlkNzY3OWJmZTg5YmJjNTdjNmJmMTk4ZWNiNTI5YTMyOTVmY2ZkZmQyZjI0NDA4ZGNhMyJ9fX0=",
+                                "Cow");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQwNWFkYmM3MDk3ODQ1ZWI0MjBkOGEyMjIxZDVhOGY5MzA3YzRmNDg2N2FhYTYyZGZmZTZmOTNlNjkwMjVlYyJ9fX0=",
+                                "Creeper");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDk1MjkwZTA5MGMyMzg4MzJiZDc4NjBmYzAzMzk0OGM0ZDAzMTM1MzUzM2FjOGY2NzA5ODgyM2I3ZjY2N2YxYyJ9fX0=",
+                                "Guardian2");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmYwZjUyMzAzMjdlZWZmYjc2MzFmMzdiZTU0OGFkN2JkYjMyY2E3NDNjMDY3OTFkY2I3NzQzYmI5NjE2Njk5MSJ9fX0=",
+                                "Skeleton");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJlYmEyYjM5YWU2ZWVhZGJiODg3YmQ1OWMxOGE4MzkwMjFjMWU5YTk4NjUzOGFkOGMzNzYwMDVkOGUwM2I5NSJ9fX0=",
+                                "Chicken");
+                TEXTURE_TO_CHAR.put(
+                                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI2Yzc1NjYzMTFiZTU1YmJlMTQyNDRlYTAxN2E4Zjc1ZDdlYzVjYTcyYjcwYTUwMGZiOWJjYA2YzRlYmUwIn19fQ==",
+                                "Enderman");
+                // Existing creeper/panda textures
                 TEXTURE_TO_CHAR.put(
                                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzlkZDgwM2QxZDg0MDRhOWEyNzZlNWU5OGEwY2UzY2RmMzAzZjgyNjU4MTI5YzljODAzZTcyNTYzODk1MmE0MyJ9fX0=",
                                 "Creeper");
